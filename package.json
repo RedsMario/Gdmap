@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "push": "sh push.sh"
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",

@@ -29,7 +29,8 @@
   read branch
 
   if [ ${push_choice} = yes ]
-  then echo trying to push to origin master...
+  then git pull
+  echo trying to push to origin $branch...
   git push origin $branch
   else echo Not pushed.
   fi
