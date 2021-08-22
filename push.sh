@@ -25,11 +25,11 @@
    else echo "This submission has been cancelled"
       exit
   fi
+  
   read branch
-  echo $branch
 
-  # if [ ${push_choice} = yes ]
-  # then echo trying to push to origin master...
-  # git push origin master
-  # else echo Not pushed.
-  # fi
+  if [ ${push_choice} = yes ]
+  then echo trying to push to origin master...
+  git push origin $branch
+  else echo Not pushed.
+  fi
