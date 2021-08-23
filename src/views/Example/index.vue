@@ -15,8 +15,14 @@
         <el-button type="primary" size="mini" @click="startArea" :disabled="isDisabled">测面积</el-button>
       </div>
       <div class="opreation-item">
-        <el-divider content-position="left">绘制</el-divider>
-        <el-button type="primary" size="mini" @click="startDrawPolygon" :disabled="isDisabled">绘制多边形</el-button>
+        <el-divider content-position="left">手动绘制</el-divider>
+        <el-button type="primary" size="mini" @click="drawPolygonMark" :disabled="isDisabled">多边形</el-button>
+        <el-button type="primary" size="mini" @click="drawPointMark" :disabled="isDisabled">点标记</el-button>
+      </div>
+      <div class="opreation-item">
+        <el-divider content-position="left">数据绘制</el-divider>
+        <el-button type="primary" size="mini" @click="drawPolygonByData" :disabled="isDisabled">多边形</el-button>
+        <el-button type="primary" size="mini" @click="drawPointByData" :disabled="isDisabled">点标记</el-button>
       </div>
     </div>
   </div>
@@ -67,14 +73,74 @@ export default {
       this.isDisabled = true
       this.GdAMap.mouseToolArea({ amap: this.amap, callback: () => (this.isDisabled = false) })
     },
-    // 开始绘制多边形
-    startDrawPolygon() {
+    // 创建多边形(有吸附)
+    drawPolygonMark() {
       this.isDisabled = true
-      this.GdAMap.startDrawPolygon({
+      this.GdAMap.drawPolygonMark({
         amap: this.amap,
-        callback: () => {
+        callback: ({ type, data }) => {
+          console.log(type, data)
           this.isDisabled = false
         },
+      })
+    },
+    // 创建点标记
+    drawPointMark() {
+      this.isDisabled = true
+      this.GdAMap.drawPointMark({
+        amap: this.amap,
+        num: 2,
+        callback: (mark, allMarkResult) => {
+          const position = mark.getPosition()
+          this.GdAMap.computedAddress([position.lng, position.lat]).then((address) => {
+            console.log(address)
+          })
+          this.isDisabled = false
+        },
+      })
+    },
+    // 通过数据绘制多边形
+    drawPolygonByData() {
+      this.isDisabled = true
+      // 模拟数据
+      const data = [
+        [108.944211, 34.262112],
+        [108.951721, 34.262005],
+        [108.942666, 34.258636],
+        [108.950949, 34.258352],
+        [108.952494, 34.260445],
+      ]
+      this.GdAMap.drawPolygonByData({
+        amap: this.amap,
+        data,
+        callback: (polygon) => {
+          this.isDisabled = false
+          this.amap.setFitView(polygon)
+          this.GdAMap.createPolygonEditor({ amap: this.amap })
+          this.GdAMap.listenerPolygonEvent({ polygon }).then((polygonData) => {
+            console.log('编辑后的多边形数据：', polygonData)
+          })
+        },
+      })
+    },
+    // 通过数据绘制点标记
+    drawPointByData() {
+      this.isDisabled = true
+      // 获取地图中心点
+      const position = this.amap.getCenter()
+      const data = []
+      // 生成模拟坐标点
+      for (let i = 0; i < 10; i++) {
+        data.push({ lng: +(position.lng + i * 0.001).toFixed(6), lat: position.lat })
+      }
+      data.forEach((item) => {
+        this.GdAMap.drawPointByData({
+          amap: this.amap,
+          data: item,
+          callback: () => {
+            this.isDisabled = false
+          },
+        })
       })
     },
   },
