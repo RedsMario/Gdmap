@@ -46,7 +46,8 @@ export default {
       theme: false,
     }
   },
-  created() {},
+  created() {
+  },
   mounted() {},
   computed: {},
   watch: {},
