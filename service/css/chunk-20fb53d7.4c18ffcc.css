@@ -1,0 +1,22 @@
+.example[data-v-54fcc4af] {
+  display: flex;
+}
+.example .views[data-v-54fcc4af] {
+  width: 50%;
+  height: 100vh;
+}
+.example .views .amap[data-v-54fcc4af] .amap-copyright,
+.example .views .amap[data-v-54fcc4af] .amap-logo {
+  display: none !important;
+}
+.example .line[data-v-54fcc4af] {
+  width: 1px;
+  height: 100vh;
+  border-right: 1px solid #eee;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.example .opreation[data-v-54fcc4af] {
+  flex: 1;
+  padding-right: 20px;
+}
