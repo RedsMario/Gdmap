@@ -1,4 +1,4 @@
-# `deploy.sh`
+#! /bin/zsh
 
 # 当发生错误时中止脚本
 set -e
@@ -10,10 +10,10 @@ yarn build
 cd dist
 
 git init
-git add -A
+git add .
 git commit -m 'deploy'
 
-git remote add origin https://gitee.com/cjh-1996/home_page.git
+git remote add origin git@github.com:RedsMario/GdmapPages.git
 # 部署到 https://<USERNAME>.github.io/<REPO>
 git push -f origin master
 
